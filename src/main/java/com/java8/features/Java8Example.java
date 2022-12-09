@@ -52,6 +52,8 @@ public class Java8Example {
         Predicate<String> stringPredicate = s -> s.length()> 5;
         List<String> subList2 = subList1.stream().filter(s ->  stringIntegerFunction.apply(s) >5).toList();
         subList2.forEach(stringConsumer);
+        Optional<String> lang = Optional.ofNullable(subList1.stream().filter(s -> s.equals("Telugu")).findAny().orElse(null));
+        System.out.println(lang.isPresent());
 
         // Function and BiFunction
         System.out.println("*********************************** Function<T, R> and BiFunction<T,R,U>:: Are functional Interfaces which takes one arguement of one type as input and return another type  ***************************");
