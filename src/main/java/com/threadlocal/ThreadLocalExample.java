@@ -15,6 +15,7 @@ public class ThreadLocalExample {
                 String birthdate = getBirthdate(new Date());
                 System.out.println(birthdate);
             });
+            simpleDateFormatThreadLocal.remove();
             
         }
     }
