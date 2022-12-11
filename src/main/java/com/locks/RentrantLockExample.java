@@ -9,21 +9,22 @@ import java.util.concurrent.locks.ReentrantLock;
 public class RentrantLockExample {
     private final ReentrantLock reentrantLock = new ReentrantLock();
 
-    private final Semaphore semaphore = new Semaphore(3);
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(10);
-    private int count =0;
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(20);
+    private final int count =0;
 
-    public int getCount(){
+    public void getCount(){
         reentrantLock.lock();
         try{
-            semaphore.acquire();
-            System.out.println(Thread.currentThread().getName() + " gets Count: " + count);
+            System.out.println("******************************************************");
+            System.out.println("getHoldCount: " + reentrantLock.getHoldCount());
+            System.out.println("getQueueLength: " + reentrantLock.getQueueLength());
+            System.out.println("isLocked: " + reentrantLock.isLocked());
+            System.out.println("tryLock: "  +reentrantLock.tryLock());
             Thread.sleep(1000);
-            return count++;
+            System.out.println("******************************************************");
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
-            semaphore.release();
             reentrantLock.unlock();
         }
     }
@@ -31,7 +32,7 @@ public class RentrantLockExample {
     public static void main(String[] args) {
         final RentrantLockExample rentrantLockExample = new RentrantLockExample();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             executorService.submit( () -> {
                rentrantLockExample.getCount();
 
